@@ -26,7 +26,7 @@
 #include <avr/pgmspace.h>
 #include "timers.h"
 
-#define NUM_DIGITAL_PINS            25 // (13 on digital headers + 12 on analog headers)
+#define NUM_DIGITAL_PINS            26 // D0-D13, A0-A7 (14-21), PD4-PD7 (22-25)
 #define NUM_ANALOG_INPUTS           12
 #define NUM_RESERVED_PINS           1  // (RESET)
 #define NUM_INTERNALLY_USED_PINS    1 // (2 x Chip select + 2 x UART + 4 x IO + LED_BUILTIN + 1 unused pin)
@@ -35,10 +35,11 @@
 #define NUM_TOTAL_FREE_PINS         (NUM_DIGITAL_PINS)
 #define NUM_TOTAL_PINS              (NUM_DIGITAL_PINS + NUM_RESERVED_PINS)
 #define ANALOG_INPUT_OFFSET         14
+#define NUM_ANALOG_HEADER_INPUTS    8  // A0-A7 (analog_pin_to_channel)
 
 #define EXTERNAL_NUM_INTERRUPTS     48
 
-#define digitalPinHasPWM(p)         ((p) == 2 || (p) == 3 || (p) == 4 || (p) == 20 || (p) == 21)
+#define digitalPinHasPWM(p)         ((p) == 14 || (p) == 15 || (p) == 16 || (p) == 20 || (p) == 21)
 
 #define SPI_MUX       (PORTMUX_SPI0_ALT1_gc)
 #define PIN_SPI_MISO  (12)
@@ -51,8 +52,8 @@ static const uint8_t MOSI = PIN_SPI_MOSI;
 static const uint8_t MISO = PIN_SPI_MISO;
 static const uint8_t SCK  = PIN_SPI_SCK;
 
-#define PIN_WIRE_SDA  (22)
-#define PIN_WIRE_SCL  (23)
+#define PIN_WIRE_SDA  (4)   // PA2 (TWI0 master, PORTMUX ALT1)
+#define PIN_WIRE_SCL  (5)   // PA3
 
 static const uint8_t SDA = PIN_WIRE_SDA;
 static const uint8_t SCL = PIN_WIRE_SCL;

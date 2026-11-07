@@ -68,8 +68,11 @@ void analogReference(uint8_t mode)
 
 int analogRead(uint8_t pin)
 {
-	pin = digitalPinToAnalogInput(pin);
-	if(pin > NUM_ANALOG_INPUTS) return NOT_A_PIN;
+	/* Accept A0-A7 (14-21) or channel index 0-7; reject anything else
+	   before reading the table (A5-A7 map to ADC channels 13-15) */
+	if(pin >= ANALOG_INPUT_OFFSET) pin -= ANALOG_INPUT_OFFSET;
+	if(pin >= NUM_ANALOG_HEADER_INPUTS) return NOT_A_PIN;
+	pin = pgm_read_byte(analog_pin_to_channel + pin);
 	
 	/* Check if TWI is operating on double bonded pin (Master Enable is high 
 		in both Master and Slave mode for bus error detection, so this can 

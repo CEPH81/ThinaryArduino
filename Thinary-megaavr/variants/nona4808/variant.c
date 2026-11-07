@@ -9,8 +9,9 @@ void setup_timers() {
 
   //  TYPE A TIMER  
 
-  // PORTMUX setting for TCA -> all outputs [0:2] point to PORTB pins [0:2]
-  PORTMUX.TCAROUTEA  = PORTMUX_TCA0_PORTB_gc;
+  // PORTMUX setting for TCA -> outputs [0:2] on PORTD pins [0:2] (A0-A2).
+  // The ATmega4808 has no PORTB: the old PORTB routing left TCA PWM unconnected.
+  PORTMUX.TCAROUTEA  = PORTMUX_TCA0_PORTD_gc;
 
   // Setup timers for single slope PWM, but do not enable, will do in analogWrite()
   TCA0.SINGLE.CTRLB = TCA_SINGLE_WGMODE_SINGLESLOPE_gc;
